@@ -38,6 +38,16 @@ import javax.swing.JPanel
 
 data class NamingRule(val message: String, val matcher: (String) -> Boolean)
 
+private fun findRuleMessage(checkString: String, rules: Array<out NamingRule>): String? {
+    for (rule in rules) {
+        if (rule.matcher(checkString)) {
+            return rule.message
+        }
+    }
+
+    return null
+}
+
 private val START_UPPER = NamingRule("should start with an uppercase letter") {
     it.getOrNull(0)?.isUpperCase() == false
 }
@@ -103,15 +113,11 @@ class NamingConventionInspectionSettings(
     }
 
     fun getNameMismatchMessage(name: String): String {
-        if (namePattern == defaultNamePattern) {
-            for (rule in rules) {
-                if (rule.matcher(name)) {
-                    return rule.message
-                }
-            }
+        if (namePattern != defaultNamePattern) {
+            return getDefaultErrorMessage()
         }
 
-        return getDefaultErrorMessage()
+        return findRuleMessage(name, rules) ?: getDefaultErrorMessage()
     }
 
     fun getDefaultErrorMessage() = "doesn't match regex '$namePattern'"
@@ -341,15 +347,7 @@ private class PackageNameInspectionLocal(
 
             val partErrorMessage = if (namingSettings.namePattern == namingSettings.defaultNamePattern) {
                 qualifiedName.split('.').asSequence()
-                    .mapNotNull { part ->
-                        for (rule in PackageNameInspection.PART_RULES) {
-                            if (rule.matcher(part)) {
-                                return@mapNotNull rule.message
-                            }
-                        }
-
-                        null
-                    }
+                    .mapNotNull { part -> findRuleMessage(part, PackageNameInspection.PART_RULES) }
                     .firstOrNull()
             } else {
                 null
