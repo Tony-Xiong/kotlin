@@ -951,8 +951,8 @@ class NewMultiplatformIT : BaseGradleIT() {
             // For release builds
             build("linkReleaseFrameworkIos") {
                 assertSuccessful()
-                assertFileExists("build/bin/ios/releaseFramework/native_binary.framework")
-                fileInWorkingDir("build/bin/ios/releaseFramework/native_binary.framework/Headers/native_binary.h")
+                assertFileExists("build/bin/ios/releaseFramework/native-binary.framework")
+                fileInWorkingDir("build/bin/ios/releaseFramework/native-binary.framework/Headers/native_binary.h")
                     .readText().contains("+ (int32_t)exported")
                 // Check that by default release frameworks have bitcode embedded.
                 checkFrameworkCompilationCommandLine {
@@ -964,8 +964,8 @@ class NewMultiplatformIT : BaseGradleIT() {
             // For debug builds
             build("linkDebugFrameworkIos") {
                 assertSuccessful()
-                assertFileExists("build/bin/ios/debugFramework/native_binary.framework")
-                fileInWorkingDir("build/bin/ios/debugFramework/native_binary.framework/Headers/native_binary.h")
+                assertFileExists("build/bin/ios/debugFramework/native-binary.framework")
+                fileInWorkingDir("build/bin/ios/debugFramework/native-binary.framework/Headers/native_binary.h")
                     .readText().contains("+ (int32_t)exported")
                 // Check that by default debug frameworks have bitcode marker embedded.
                 checkFrameworkCompilationCommandLine {
