@@ -195,6 +195,7 @@ abstract class KtCodeFragment(
         val IMPORT_SEPARATOR: String = ","
         val RUNTIME_TYPE_EVALUATOR: Key<Function1<KtExpression, KotlinType?>> = Key.create("RUNTIME_TYPE_EVALUATOR")
         val FAKE_CONTEXT_FOR_JAVA_FILE: Key<Function0<KtElement>> = Key.create("FAKE_CONTEXT_FOR_JAVA_FILE")
+        val EXTERNAL_DESCRIPTORS: Key<List<DeclarationDescriptor>> = Key.create("EXTERNAL_DESCRIPTORS")
 
         private val LOG = Logger.getInstance(KtCodeFragment::class.java)
     }
